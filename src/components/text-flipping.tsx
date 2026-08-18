@@ -4,9 +4,7 @@ import { TextFlippingBoard } from "./ui/text-flipping-board";
 
 const MESSAGES: string[] = [
   "NOT FOR EVERYONE. \nTHAT'S VARNERO.",
-  "WEAR YOUR \nOWN RULES.",
-  "NO APPROVAL \nNEEDED.",
-  "MAKE YOUR \nOWN STATEMENT.",
+  "NO APPROVAL \nNEEDED. \nWEAR YOUR \nOWN RULES.",
   "🖕🏼🖕🏼🖕🏼 VARNERO — WEAR YOUR FUCKING SELF. 🖕🏼🖕🏼🖕🏼",
 ];
 
