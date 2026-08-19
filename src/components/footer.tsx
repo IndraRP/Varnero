@@ -1,4 +1,5 @@
-import { motion } from "motion/react";
+import { color, motion } from "motion/react";
+import Swal from 'sweetalert2'
 
 const links = [
   { label: "Collections", href: "#collections" },
@@ -75,11 +76,12 @@ export default function Footer() {
               No spam. Just VARNERO.
             </p>
 
-            <form className="group relative">
+            <form className="group relative" onSubmit={handlePost}>
 
               <input
                 type="email"
                 placeholder="YOUR EMAIL"
+                name='email'
                 className="
                   w-full
                   border-b
@@ -419,3 +421,106 @@ function FooterColumn({
     </div>
   );
 }
+
+const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+
+  const target = form as typeof form & {
+    email: { value: string };
+  };
+
+  const inputValue: { [key: string]: string } = {
+    Email: target.email.value,
+  };
+
+  console.log(inputValue);
+
+  const baseURL =
+    `https://script.google.com/macros/s/AKfycbw6AU1bpzAx4-V-p336ouN0-2j77a59XThj1Z0JK8JMoXieozP7YrOI96PYR5JA2e8c/exec`;
+
+  const formData = new FormData();
+
+  Object.keys(inputValue).forEach((key) => {
+    formData.append(key, inputValue[key]);
+  });
+
+  try {
+    Swal.fire({
+      title: "Sending...",
+      text: "Please wait a moment.",
+      background: "#111111",
+      color: "#ffffff",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    const res = await fetch(baseURL, {
+      method: "POST",
+      body: formData,
+    });
+
+    console.log("Status:", res.status);
+    console.log("OK:", res.ok);
+
+    if (res.ok) {
+      // Reset menggunakan reference yang sudah disimpan
+      form.reset();
+
+      Swal.fire({
+        title: "You're In.",
+        text: "Thanks for joining us. We'll keep you posted.",
+        icon: "success",
+        background: "#111111",
+        color: "#ffffff",
+        confirmButtonColor: "#ffffff",
+        confirmButtonText: "Continue",
+        iconColor: "#ffffff",
+        customClass: {
+          popup: "rounded-none",
+          confirmButton:
+            "rounded-none px-6 py-2 text-black font-medium",
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Something Went Wrong.",
+        text: "We couldn't complete your request. Please try again.",
+        icon: "error",
+        background: "#111111",
+        color: "#ffffff",
+        confirmButtonColor: "#ffffff",
+        confirmButtonText: "Try Again",
+        iconColor: "#ffffff",
+        customClass: {
+          popup: "rounded-none",
+          confirmButton:
+            "rounded-none px-6 py-2 text-black font-medium",
+        },
+      });
+    }
+  } catch (e) {
+    console.error("Error during fetch:", e);
+
+    Swal.fire({
+      title: "Connection Error.",
+      text: "Please check your connection and try again.",
+      icon: "error",
+      background: "#111111",
+      color: "#ffffff",
+      confirmButtonColor: "#ffffff",
+      confirmButtonText: "Close",
+      iconColor: "#ffffff",
+      customClass: {
+        popup: "rounded-none",
+        confirmButton:
+          "rounded-none px-6 py-2 text-black font-medium",
+      },
+    });
+  }
+};

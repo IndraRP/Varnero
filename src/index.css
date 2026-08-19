@@ -261,3 +261,8 @@ code {
     @apply bg-background text-foreground;}
   html {
     @apply font-sans;}}
+
+
+.swal2-confirm {
+  color: #111111 !important;
+}
