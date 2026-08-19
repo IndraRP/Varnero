@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero.png";
 
 export default function Home() {
-  const [scrolled, setScrolled] = useState(false);
+  const [, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

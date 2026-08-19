@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { TextFlippingBoard } from "./ui/text-flipping-board";
 
 const MESSAGES: string[] = [

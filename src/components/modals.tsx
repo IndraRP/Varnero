@@ -24,7 +24,15 @@ import { SiShopee } from "react-icons/si";
     },
     ];
 
-export default function SocialModal({ isOpen, onClose }) {
+    interface SocialModalProps {
+      isOpen: boolean;
+      onClose: () => void;
+    }
+
+  export default function SocialModal({
+      isOpen,
+      onClose,
+    }: SocialModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (

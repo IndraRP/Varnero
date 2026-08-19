@@ -1,4 +1,4 @@
-import { color, motion } from "motion/react";
+import {motion} from "motion/react";
 import Swal from 'sweetalert2'
 
 const links = [
