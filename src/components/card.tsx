@@ -8,6 +8,16 @@ import sizechart from "@/assets/sizechart.jpeg";
 import { useState } from "react";
 import { ArticleModal } from "./ui/modals-article";
 
+type Collection = {
+  number: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  status: number;
+  image: string;
+  images: string[];
+};
+
 const collections = [
   {
     number: "01",
@@ -30,11 +40,15 @@ const collections = [
     description: "Lorem Ipsum Dolor Sit Amet, Take me back to the night we met",
     image:"https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
     status:0,
+    images:[
+      article2
+    ]
 },
 ];
 
 export function CometCardDemo() {
-  const [selectedCollection, setSelectedCollection] = useState(null);
+  const [selectedCollection, setSelectedCollection] =
+  useState<Collection | null>(null);
   
   return (
     <section className="px-6 py-24 text-white md:px-10 md:py-32" id="collections">
