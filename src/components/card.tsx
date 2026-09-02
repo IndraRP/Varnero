@@ -1,25 +1,41 @@
 import { CometCard } from "./ui/comet-card";
+import article1 from "@/assets/article1_2.jpg";
+import article2 from "@/assets/article1.jpg";
+import article3 from "@/assets/article1_3.png";
+import article4 from "@/assets/article1_4.jpg";
+import sizechart from "@/assets/sizechart.jpeg";
+
+import { useState } from "react";
+import { ArticleModal } from "./ui/modals-article";
 
 const collections = [
   {
     number: "01",
-    title: "ESSENTIALS",
-    subtitle: "THE EVERYDAY UNIFORM",
-    description: "Built for the ones who move differently.",
-    image:
-      "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?q=80&w=1200&auto=format&fit=crop",
+    title: "FIRST BLOOD",
+    subtitle: "MARKING THE STREETS",
+    description: "The first footprint on asphalt, cut for the ones who live by their own rules.",
+    status: 1,
+    image: article1,
+    images: [
+      article2,
+      article3,
+      article4,
+      sizechart,
+    ],
   },
   {
     number: "02",
-    title: "AFTER DARK",
-    subtitle: "NIGHT / CITY / MOVEMENT",
-    description: "A darker expression of the VARNERO identity.",
-    image:
-      "https://images.unsplash.com/photo-1523398002811-999ca8dec234?q=80&w=1200&auto=format&fit=crop",
-  },
+    title: "COMMING SOON",
+    subtitle: "Lorem Ipsum Dolor",
+    description: "Lorem Ipsum Dolor Sit Amet, Take me back to the night we met",
+    image:"https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
+    status:0,
+},
 ];
 
 export function CometCardDemo() {
+  const [selectedCollection, setSelectedCollection] = useState(null);
+  
   return (
     <section className="px-6 py-24 text-white md:px-10 md:py-32" id="collections">
       <div className="mx-auto max-w-[1400px]">
@@ -79,6 +95,12 @@ export function CometCardDemo() {
                   transformStyle: "preserve-3d",
                   transform: "none",
                   opacity: 1,
+                }}
+
+                onClick={() => {
+                  if (collection.status === 1) {
+                    setSelectedCollection(collection);
+                  }
                 }}
               >
 
@@ -217,8 +239,12 @@ export function CometCardDemo() {
           ))}
 
         </div>
-
       </div>
+
+      <ArticleModal
+        collection={selectedCollection}
+        onClose={() => setSelectedCollection(null)}
+      />
     </section>
   );
 }
