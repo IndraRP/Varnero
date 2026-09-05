@@ -13,16 +13,36 @@ function App() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    if (!loading) return;
+  
+    // Timer 20 detik
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 20000); // ⏱️ boot duration
-
-    return () => clearTimeout(timer);
-  }, []);
+    }, 20000);
+  
+    // Klik / scroll langsung lanjut
+    const handleContinue = () => {
+      setLoading(false);
+    };
+  
+    window.addEventListener("click", handleContinue);
+    window.addEventListener("wheel", handleContinue);
+    window.addEventListener("touchmove", handleContinue);
+    window.addEventListener("touchstart", handleContinue);
+  
+    return () => {
+      clearTimeout(timer);
+  
+      window.removeEventListener("click", handleContinue);
+      window.removeEventListener("wheel", handleContinue);
+      window.removeEventListener("touchmove", handleContinue);
+      window.removeEventListener("touchstart", handleContinue);
+    };
+  }, [loading]);
 
   return (
       <div>
-         {loading && (
+        {loading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

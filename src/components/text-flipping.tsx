@@ -3,7 +3,6 @@ import { useState, useEffect, useCallback } from "react";
 import { TextFlippingBoard } from "./ui/text-flipping-board";
 
 const MESSAGES: string[] = [
-  "NOT FOR EVERYONE. \nTHAT'S VARNERO.",
   "NO APPROVAL \nNEEDED. \nWEAR YOUR \nOWN RULES.",
   "🖕🏼🖕🏼🖕🏼 VARNERO — WEAR YOUR FUCKING SELF. 🖕🏼🖕🏼🖕🏼",
 ];
@@ -17,7 +16,7 @@ export function TextFlippingBoardDemo() {
   );
 
   useEffect(() => {
-    const id = setInterval(next, 6000);
+    const id = setInterval(next, 9000);
     return () => clearInterval(id);
   }, [next]);
 
