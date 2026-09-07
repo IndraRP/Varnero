@@ -5,6 +5,8 @@ interface Collection {
   title: string;
   subtitle: string;
   description: string;
+  category: string;
+  bahan: string;
   status: number;
   image: string;
   images: string[];
@@ -91,17 +93,8 @@ export function ArticleModal({
 
       <div
         className="
-          relative
-          flex
-          h-[94vh]
-          w-full
-          max-w-7xl
-          overflow-hidden
-          border
-          border-white/10
-          bg-[#0a0a0a]
-          shadow-[0_30px_100px_rgba(0,0,0,0.8)]
-        "
+          relative flex h-[96vh] w-full max-w-7xl flex-col overflow-hidden
+          border border-white/10 bg-[#0a0a0a] shadow-[0_30px_100px_rgba(0,0,0,0.8)] md:h-[94vh] md:flex-row "
         onClick={(event) => event.stopPropagation()}
       >
 
@@ -146,14 +139,7 @@ export function ArticleModal({
         ====================================================== */}
 
         <div
-          className="
-            relative
-            flex
-            w-full
-            flex-col
-            bg-[#111]
-            md:w-[60%]
-          "
+          className=" relative flex h-[48vh] w-full shrink-0 flex-col bg-[#111] sm:h-[52vh] md:h-auto md:w-[60%] "
         >
 
           {/* MAIN IMAGE */}
@@ -313,10 +299,9 @@ export function ArticleModal({
                   border
                   transition-all
                   duration-300
-                  ${
-                    currentImage === index
-                      ? "border-white opacity-100"
-                      : "border-white/10 opacity-35 hover:opacity-70"
+                  ${currentImage === index
+                    ? "border-white opacity-100"
+                    : "border-white/10 opacity-35 hover:opacity-70"
                   }
                 `}
               >
@@ -485,7 +470,40 @@ export function ArticleModal({
                     text-white/80
                   "
                 >
-                  LONG SLEEVE BOXY
+                  {collection.category}
+                </span>
+
+              </div>
+
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-between
+                  border-b
+                  border-white/10
+                  pb-4
+                "
+              >
+
+                <span
+                  className="
+                    text-[9px]
+                    tracking-[0.25em]
+                    text-white/30
+                  "
+                >
+                  MATERIAL
+                </span>
+
+                <span
+                  className="
+                    text-xs
+                    tracking-wider
+                    text-white/80
+                  "
+                >
+                  {collection.bahan}
                 </span>
 
               </div>
@@ -544,7 +562,7 @@ export function ArticleModal({
 
           {/* BOTTOM */}
 
-          <div>
+          {/* <div>
 
             <div
               className="
@@ -612,7 +630,7 @@ export function ArticleModal({
 
             </button>
 
-          </div>
+          </div> */}
 
         </div>
 
@@ -620,43 +638,276 @@ export function ArticleModal({
         {/* =====================================================
             MOBILE INFO
         ====================================================== */}
+        <div className="flex flex-1 min-h-0 flex-col overflow-y-auto bg-[#0b0b0b] p-6 md:hidden">
+            <div
+              className="
+                  mb-8
+                  flex
+                  items-center
+                  justify-between
+                "
+            >
+              <span
+                className="
+                    text-[8px]
+                    tracking-[0.3em]
+                    text-white/30
+                  "
+              >
+                COLLECTION {collection.number}
+              </span>
 
-        <div
-          className="
-            absolute
-            bottom-0
-            left-0
-            right-0
-            bg-gradient-to-t
-            from-black
-            via-black/80
-            to-transparent
-            p-6
-            md:hidden
-          "
-        >
+              <span
+                className="
+                    text-[8px]
+                    tracking-[0.25em]
+                    text-white/30
+                  "
+              >
+                2026
+              </span>
+            </div>
 
-          <p
-            className="
-              mb-1
-              text-[8px]
-              tracking-[0.3em]
-              text-white/40
-            "
-          >
-            {collection.subtitle}
-          </p>
+            <p
+              className="
+                  mb-2
+                  text-[8px]
+                  tracking-[0.3em]
+                  text-white/40
+                "
+            >
+              {collection.subtitle}
+            </p>
 
-          <h2
-            className="
-              text-3xl
-              font-medium
-              tracking-[-0.05em]
-              text-white
-            "
-          >
-            {collection.title}
-          </h2>
+            <h2
+              className="
+                  text-4xl
+                  font-medium
+                  leading-[0.9]
+                  tracking-[-0.06em]
+                  text-white
+                  sm:text-5xl
+                "
+            >
+              {collection.title}
+            </h2>
+
+
+            <div className="mb-8">
+              <p
+                className="
+                    mb-2
+                    text-[8px]
+                    tracking-[0.3em]
+                    text-white/30
+                  "
+              >
+                DESCRIPTION
+              </p>
+
+              <p
+                className="
+                    max-w-xl
+                    text-sm
+                    leading-6
+                    text-white/50
+                  "
+              >
+                {collection.description}
+              </p>
+            </div>
+
+            <div className="space-y-5">
+
+              {/* CATEGORY */}
+
+              <div
+                className="
+                    flex
+                    items-start
+                    justify-between
+                    gap-6
+                    border-b
+                    border-white/10
+                    pb-4
+                  "
+              >
+                <span
+                  className="
+                      shrink-0
+                      text-[8px]
+                      tracking-[0.25em]
+                      text-white/30
+                    "
+                >
+                  CATEGORY
+                </span>
+
+                <span
+                  className="
+                      text-right
+                      text-[10px]
+                      tracking-wider
+                      text-white/80
+                    "
+                >
+                  {collection.category}
+                </span>
+              </div>
+
+
+              {/* STATUS */}
+
+              <div
+                className="
+                    flex
+                    items-center
+                    justify-between
+                    gap-6
+                    border-b
+                    border-white/10
+                    pb-4
+                  "
+              >
+                <span
+                  className="
+                      text-[8px]
+                      tracking-[0.25em]
+                      text-white/30
+                    "
+                >
+                  STATUS
+                </span>
+
+                <span
+                  className="
+                      flex
+                      items-center
+                      gap-2
+                      text-[10px]
+                      text-white/80
+                    "
+                >
+                  <span
+                    className="
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-white
+                      "
+                  />
+
+                  AVAILABLE
+                </span>
+              </div>
+
+              {/* MATERIAL */}
+
+              <div
+                className="
+                    flex
+                    items-center
+                    justify-between
+                    gap-6
+                    border-b
+                    border-white/10
+                    pb-4
+                  "
+              >
+                <span
+                  className="
+                      text-[8px]
+                      tracking-[0.25em]
+                      text-white/30
+                    "
+                >
+                  MATERIAL
+                </span>
+
+                <span
+                  className="
+                        flex
+                        items-center
+                        gap-2
+                        text-[10px]
+                        text-white/80
+                      "
+                >
+
+                  {collection.bahan}
+                </span>
+              </div>
+
+            </div>
+
+
+            {/* PRODUCT VIEW */}
+
+            {/* <div className="mt-8 pb-2">
+
+                <div
+                  className="
+                    mb-4
+                    flex
+                    items-center
+                    justify-between
+                    text-[8px]
+                    tracking-[0.25em]
+                    text-white/30
+                  "
+                >
+                  <span>
+                    PRODUCT VIEW
+                  </span>
+
+                  <span>
+                    {String(currentImage + 1).padStart(2, "0")}
+                    {" — "}
+                    {String(totalImages).padStart(2, "0")}
+                  </span>
+                </div>
+
+
+                <button
+                  type="button"
+                  className="
+                    group
+                    flex
+                    w-full
+                    items-center
+                    justify-between
+                    border
+                    border-white/20
+                    px-5
+                    py-4
+                    text-[8px]
+                    font-medium
+                    tracking-[0.25em]
+                    text-white
+                    transition-all
+                    duration-500
+                    hover:border-white
+                    hover:bg-white
+                    hover:text-black
+                  "
+                >
+                  <span>
+                    EXPLORE PRODUCT
+                  </span>
+
+                  <span
+                    className="
+                      text-lg
+                      transition-transform
+                      duration-500
+                      group-hover:translate-x-1
+                    "
+                  >
+                    →
+                  </span>
+                </button>
+
+              </div> */}
 
         </div>
 

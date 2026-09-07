@@ -13,6 +13,8 @@ type Collection = {
   title: string;
   subtitle: string;
   description: string;
+  category:string;
+  bahan:string;
   status: number;
   image: string;
   images: string[];
@@ -24,6 +26,8 @@ const collections = [
     title: "FIRST BLOOD",
     subtitle: "MARKING THE STREETS",
     description: "The first footprint on asphalt, cut for the ones who live by their own rules.",
+    bahan: "Cotton Combed 16s",
+    category: "Boxy Long Sleeve",
     status: 1,
     image: article1,
     images: [
@@ -38,6 +42,8 @@ const collections = [
     title: "COMMING SOON",
     subtitle: "Lorem Ipsum Dolor",
     description: "Lorem Ipsum Dolor Sit Amet, Take me back to the night we met",
+    bahan: "Cotton Combed 16s",
+    category: "Boxy Long Sleeve",
     image:"https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
     status:0,
     images:[
