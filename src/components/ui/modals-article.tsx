@@ -562,8 +562,8 @@ export function ArticleModal({
 
           {/* BOTTOM */}
 
-          {/* <div>
-
+          <div className="py-4">
+{/* 
             <div
               className="
                 mb-5
@@ -586,11 +586,14 @@ export function ArticleModal({
                 {String(totalImages).padStart(2, "0")}
               </span>
 
-            </div>
+            </div> */}
 
 
             <button
               type="button"
+              onClick={() => {
+                window.location.href = "/po";
+              }}
               className="
                 group
                 flex
@@ -614,7 +617,7 @@ export function ArticleModal({
             >
 
               <span>
-                EXPLORE PRODUCT
+                ORDER NOW
               </span>
 
               <span
@@ -630,7 +633,7 @@ export function ArticleModal({
 
             </button>
 
-          </div> */}
+          </div>
 
         </div>
 
@@ -843,9 +846,9 @@ export function ArticleModal({
 
             {/* PRODUCT VIEW */}
 
-            {/* <div className="mt-8 pb-2">
+            <div className="mt-8 pb-2">
 
-                <div
+                {/* <div
                   className="
                     mb-4
                     flex
@@ -865,11 +868,13 @@ export function ArticleModal({
                     {" — "}
                     {String(totalImages).padStart(2, "0")}
                   </span>
-                </div>
-
+                </div> */}
 
                 <button
                   type="button"
+                  onClick={() => {
+                    window.location.href = "/po";
+                  }}
                   className="
                     group
                     flex
@@ -892,7 +897,7 @@ export function ArticleModal({
                   "
                 >
                   <span>
-                    EXPLORE PRODUCT
+                    ORDER NOW
                   </span>
 
                   <span
@@ -907,7 +912,7 @@ export function ArticleModal({
                   </span>
                 </button>
 
-              </div> */}
+              </div>
 
         </div>
 
