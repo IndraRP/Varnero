@@ -22,7 +22,7 @@ export default function POForm() {
     e.preventDefault();
 
     if (!nama || !nohp || !alamat || !kota || !partner || !size || !qty || !file) {
-      alert("Ada Field yang Wajib Diisi!!!");
+      alert("Ada Field yang Belum Diisi!!!");
       return;
     }
 
@@ -65,10 +65,10 @@ export default function POForm() {
 
   if (success) {
     return (
-      <div>
-        <h2>PO Berhasil Dikirim</h2>
+      <div className="py-5">
+        <h2 className="text-white">PO Berhasil Dikirim</h2>
 
-        <p>
+        <p className="text-white">
           Terima kasih. PO Anda sudah diterima.
         </p>
 
@@ -184,7 +184,7 @@ export default function POForm() {
                 </span>
 
                 <input
-                  type="tel"
+                  type="number"
                   value={nohp}
                   onChange={(e) => setNoHp(e.target.value)}
                   placeholder="8123456789"

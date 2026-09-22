@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const isPOPage = window.location.pathname === "/po";
 
   useEffect(() => {
     if (!loading) return;
@@ -21,6 +22,11 @@ function App() {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 20000);
+
+    if (isPOPage) {
+      setLoading(false);
+      return;
+    }
 
     const handleContinue = () => {
       setLoading(false);
@@ -39,7 +45,7 @@ function App() {
       window.removeEventListener("touchmove", handleContinue);
       window.removeEventListener("touchstart", handleContinue);
     };
-  }, [loading]);
+  }, [loading, isPOPage]);
 
   return (
     <BrowserRouter>
