@@ -15,6 +15,7 @@ export default function POForm() {
   const [size, setSize] = useState("");
   const [kota, setKota] = useState("");
   const [qty, setQty] = useState<number>(1);
+  const [status, setStatus] = useState<string>("DP");
   const [file, setFile] = useState<File | null>(null);
 
   const [uploadType, setUploadType] = useState('file');
@@ -54,6 +55,7 @@ export default function POForm() {
         size,
         qty,
         kota,
+        status,
         file
       });
 
@@ -68,6 +70,8 @@ export default function POForm() {
       setSize("");
       setQty(1);
       setFile(null);
+      setStatus("DP");
+      setStep(1);
 
     } catch (error) {
         console.error("Detail Error:", error);
@@ -184,6 +188,8 @@ export default function POForm() {
             <ProofOfOrder 
               file={file} 
               setFile={setFile} 
+              status={status}
+              setStatus={setStatus}
               uploadType={uploadType} 
               setUploadType={setUploadType} 
               fileLink={fileLink} 
