@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 const links = [
   { label: "Collections", href: "#collections" },
   { label: "About", href: "#about" },
-  { label: "Contact", href: "https://wa.me/6282131211769" },
+  { label: "Contact", href: "https://wa.me/6285151069208" },
 ];
 
 const socials = [

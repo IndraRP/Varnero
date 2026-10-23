@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { submitPO } from "../services/poService";
+import ProofOfOrder from './ui/proofoforder';
+import ProductForm from './ui/productform';
+import CustomerForm from './ui/customerform';
+import { partnerCodes } from './partnercode';
+import SuccessForm from './ui/successform';
 
 export default function POForm() {
 
@@ -12,8 +17,14 @@ export default function POForm() {
   const [qty, setQty] = useState<number>(1);
   const [file, setFile] = useState<File | null>(null);
 
+  const [uploadType, setUploadType] = useState('file');
+  const [fileLink, setFileLink] = useState('');
+
+  const [step, setStep] = useState(1);
+
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [waUrl, setWaUrl] = useState("");
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -26,9 +37,16 @@ export default function POForm() {
       return;
     }
 
+    const isValidPartner = partnerCodes.includes(partner);
+
+    if (!isValidPartner) {
+        alert("Kode partner tidak valid atau tidak terdaftar!");
+        return;
+    }
+
     try {
       setLoading(true);
-      await submitPO({
+      const result = await submitPO({
         nama,
         nohp,
         alamat,
@@ -39,6 +57,7 @@ export default function POForm() {
         file
       });
 
+      setWaUrl(result.waUrl);
       setSuccess(true);
 
       setNama("");
@@ -51,33 +70,19 @@ export default function POForm() {
       setFile(null);
 
     } catch (error) {
-
-      console.error(error);
-
-      alert("Gagal mengirim PO");
-
+        console.error("Detail Error:", error);
+        alert("Gagal mengirim PO: " + (error instanceof Error ? error.message : String(error))); 
     } finally {
-
       setLoading(false);
-
     }
   }
 
   if (success) {
     return (
-      <div className="py-5">
-        <h2 className="text-white">PO Berhasil Dikirim</h2>
-
-        <p className="text-white">
-          Terima kasih. PO Anda sudah diterima.
-        </p>
-
-        <button
-          onClick={() => setSuccess(false)}
-        >
-          Buat PO Lagi
-        </button>
-      </div>
+      <SuccessForm 
+        setSuccess={setSuccess}
+        waUrl={waUrl}
+      />
     );
   }
 
@@ -88,461 +93,156 @@ export default function POForm() {
 >
   <div className="grid lg:grid-cols-[1fr_360px] gap-6">
 
-    {/* =========================
-        MAIN FORM
-    ========================== */}
+    {/* FORM */}
     <div className="relative overflow-hidden mt-6">
 
-      {/* subtle glow */}
       <div className="absolute -top-32 -right-32 w-72 h-72 bg-white/[0.04] blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative p-6 sm:p-8 md:p-10">
-
-        {/* HEADER */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-5">
             <span className="w-8 h-[1px] bg-white" />
-
             <span className="text-[10px] font-medium uppercase tracking-[0.35em] text-white/40">
               Varnero / Order
             </span>
           </div>
-
           <h1 className="text-4xl sm:text-5xl font-bold tracking-[-0.04em]">
             Purchase Order<span className="text-white/30">.</span>
           </h1>
-
           <div className="flex justify-center">
             <p className="mt-3 text-sm text-white/40 max-w-md leading-relaxed">
-                Isi detail pesanan kamu. Pastikan informasi yang diberikan
-                sudah sesuai sebelum melakukan submit.
+            {step === 1 
+                ? "Isi detail informasi customer dan produk pesanan kamu." 
+                : "Unggah bukti pembayaran atau tautan file PO kamu."}
             </p>
           </div>
         </div>
 
-
-        {/* =========================
-            CUSTOMER
-        ========================== */}
-        <div className="mb-10">
-
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-[10px] text-white/30 font-mono">
-              01
-            </span>
-
-            <h2 className="text-xs uppercase tracking-[0.25em] font-semibold">
-              Customer
-            </h2>
-
-            <div className="h-px flex-1 bg-white/[0.08]" />
-          </div>
-
-
-          <div className="grid sm:grid-cols-2 gap-x-5 gap-y-6">
-
-            {/* Nama */}
-            <div className="sm:col-span-2">
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-2">
-                Nama Lengkap
-              </label>
-
-              <input
-                type="text"
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
-                placeholder="Indra"
-                className="
-                  w-full
-                  h-14
-                  px-0
-                  bg-transparent
-                  border-0
-                  border-b
-                  border-white/[0.15]
-                  rounded-none
-                  text-base
-                  text-white
-                  placeholder:text-white/20
-                  outline-none
-                  transition-all
-                  focus:border-white
-                "
+        {/* STEP 1: Customer & Product Form */}
+        {step === 1 && (
+            <div className="space-y-6">
+              <CustomerForm 
+                nama={nama}
+                setNama={setNama}
+                setNoHp={setNoHp}
+                nohp={nohp}
+                setPartner={setPartner}
+                partner={partner}
+                setAlamat={setAlamat}
+                alamat={alamat}
+                setKota={setKota}
+                kota={kota}
               />
-            </div>
 
-
-            {/* WhatsApp */}
-            <div>
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-2">
-                WhatsApp
-              </label>
-
-              <div className="relative">
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs text-white/30">
-                  +62
-                </span>
-
-                <input
-                  type="number"
-                  value={nohp}
-                  onChange={(e) => setNoHp(e.target.value)}
-                  placeholder="8123456789"
-                  className="
-                    w-full
-                    h-14
-                    pl-9
-                    pr-0
-                    bg-transparent
-                    border-0
-                    border-b
-                    border-white/[0.15]
-                    rounded-none
-                    text-base
-                    text-white
-                    placeholder:text-white/20
-                    outline-none
-                    focus:border-white
-                    transition-all
-                  "
-                />
-              </div>
-            </div>
-
-
-            {/* Partner */}
-            <div>
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-2">
-                Kode Partner / Affiliator
-              </label>
-
-              <input
-                type="text"
-                value={partner}
-                onChange={(e) => setPartner(e.target.value)}
-                placeholder="1N6R4"
-                className="
-                  w-full
-                  h-14
-                  px-0
-                  bg-transparent
-                  border-0
-                  border-b
-                  border-white/[0.15]
-                  rounded-none
-                  text-base
-                  text-white
-                  placeholder:text-white/20
-                  outline-none
-                  focus:border-white
-                  transition-all
-                "
+              <ProductForm 
+                size={size} 
+                setSize={setSize}
+                qty={qty}
+                setQty={setQty}
               />
-            </div>
 
-            <div className="sm:col-span-2">
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-2">
-                Alamat Pengiriman
-              </label>
-
-              <textarea
-                value={alamat}
-                onChange={(e) => setAlamat(e.target.value)}
-                placeholder="Jalan Danau Ranau, Sawojajar, Malang"
-                rows={2}
+              {/* Tombol Lanjut ke Step 2 */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (!nama || !nohp || !alamat) {
+                    alert("Harap lengkapi data customer terlebih dahulu!");
+                    return;
+                  }
+                  setStep(2);
+                }}
                 className="
+                  group
+                  relative
                   w-full
-                  px-0
-                  py-3
-                  bg-transparent
-                  border-0
-                  border-b
-                  border-white/[0.15]
-                  rounded-none
-                  text-base
-                  text-white
-                  placeholder:text-white/20
-                  outline-none
-                  resize-none
-                  focus:border-white
+                  h-16
+                  overflow-hidden
+                  rounded-full
+                  bg-white
+                  text-black
+                  font-semibold
+                  text-sm
                   transition-all
+                  hover:bg-white/90
+                  active:scale-[0.99]
+                  mt-6
                 "
-              />
-            </div>
-
-            {/* Alamat */}
-            <div className="sm:col-span-2">
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-2">
-                Kota Pengiriman
-              </label>
-
-              <textarea
-                value={kota}
-                onChange={(e) => setKota(e.target.value)}
-                placeholder="Malang"
-                rows={2}
-                className="
-                  w-full
-                  px-0
-                  py-3
-                  bg-transparent
-                  border-0
-                  border-b
-                  border-white/[0.15]
-                  rounded-none
-                  text-base
-                  text-white
-                  placeholder:text-white/20
-                  outline-none
-                  resize-none
-                  focus:border-white
-                  transition-all
-                "
-              />
-            </div>
-
-          </div>
-        </div>
-
-
-        {/* =========================
-            PRODUCT
-        ========================== */}
-        <div className="mb-10">
-
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-[10px] text-white/30 font-mono">
-              02
-            </span>
-
-            <h2 className="text-xs uppercase tracking-[0.25em] font-semibold">
-              Product
-            </h2>
-
-            <div className="h-px flex-1 bg-white/[0.08]" />
-          </div>
-
-
-          <div className="grid sm:grid-cols-2 gap-8">
-
-            {/* SIZE */}
-            <div>
-              <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-4">
-                Select Size
-              </label>
-
-              <div className="flex flex-wrap gap-2">
-
-                {["S", "M", "L", "XL", "XXL"].map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setSize(item)}
-                    className={`
-                      min-w-[52px]
-                      h-12
-                      px-4
-                      rounded-full
-                      text-xs
-                      font-medium
-                      border
-                      transition-all
-                      ${
-                        size === item
-                          ? "bg-white text-black border-white"
-                          : "bg-transparent text-white/50 border-white/[0.12] hover:border-white/40 hover:text-white"
-                      }
-                    `}
-                  >
-                    {item}
-                  </button>
-                ))}
-
-              </div>
-            </div>
-
-
-            {/* QTY */}
-            <div>
-                <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-4">
-                    Quantity
-                </label>
-
-                <div className="w-full">
-                    <div className="flex items-center justify-between w-full h-14 rounded-full border border-white/[0.12] bg-white/[0.03] px-2">
-                        <button
-                            type="button"
-                            onClick={() => setQty((prev) => Math.max(1, prev - 1))}
-                            className="
-                            w-10 h-10
-                            rounded-full
-                            flex items-center justify-center
-                            text-white/50
-                            hover:bg-white
-                            hover:text-black
-                            transition-all
-                            "
-                        >
-                            −
-                        </button>
-
-                        <span className="text-sm font-semibold">
-                            {qty}
-                        </span>
-
-                        <button
-                            type="button"
-                            onClick={() => setQty((prev) => prev + 1)}
-                            className="
-                            w-10 h-10
-                            rounded-full
-                            flex items-center justify-center
-                            text-white/50
-                            hover:bg-white
-                            hover:text-black
-                            transition-all
-                            "
-                        >
-                            +
-                        </button>
-                    </div>
-                </div>
-                </div>
-
-          </div>
-        </div>
-
-
-        {/* =========================
-            UPLOAD
-        ========================== */}
-        <div className="mb-10">
-
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-[10px] text-white/30 font-mono">
-              03
-            </span>
-
-            <h2 className="text-xs uppercase tracking-[0.25em] font-semibold">
-              Proof of Order
-            </h2>
-
-            <div className="h-px flex-1 bg-white/[0.08]" />
-          </div>
-
-
-          <label
-            className="
-              group
-              relative
-              flex
-              flex-col
-              items-center
-              justify-center
-              min-h-[170px]
-              rounded-2xl
-              border
-              border-dashed
-              border-white/[0.15]
-              bg-white/[0.025]
-              cursor-pointer
-              overflow-hidden
-              transition-all
-              hover:bg-white/[0.05]
-              hover:border-white/30
-            "
-          >
-
-            <div
-              className="
-                w-12 h-12
-                rounded-full
-                border border-white/[0.12]
-                flex items-center justify-center
-                mb-4
-                group-hover:bg-white
-                group-hover:text-black
-                transition-all
-              "
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"
-                />
-              </svg>
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  Lanjut ke Upload Bukti
+                  <span className="text-lg transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </button>
             </div>
+        )}
 
-
-            <span className="text-sm font-medium">
-              {file
-                ? file.name
-                : "Upload bukti PO"}
-            </span>
-
-            <span className="text-[10px] uppercase tracking-[0.15em] text-white/30 mt-2">
-              JPG / PNG / PDF
-            </span>
-
-
-            <input
-              type="file"
-              accept="image/*,.pdf"
-              className="hidden"
-              onChange={(e) => {
-                const selectedFile =
-                  e.target.files?.[0] ?? null;
-
-                setFile(selectedFile);
-              }}
+        {/* STEP 2: Proof of Order & Submit */}
+        {step === 2 && (
+          <div className="space-y-6">
+            <ProofOfOrder 
+              file={file} 
+              setFile={setFile} 
+              uploadType={uploadType} 
+              setUploadType={setUploadType} 
+              fileLink={fileLink} 
+              setFileLink={setFileLink} 
             />
 
-          </label>
-        </div>
+            <div className="flex gap-4 mt-6">
+              {/* Tombol Kembali ke Step 1 */}
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="
+                  w-1/3
+                  h-16
+                  rounded-full
+                  border
+                  border-white/[0.15]
+                  bg-transparent
+                  text-white
+                  font-semibold
+                  text-sm
+                  transition-all
+                  hover:bg-white/[0.05]
+                  hover:border-white/30
+                "
+              >
+                ← Kembali
+              </button>
 
-
-        {/* SUBMIT */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="
-            group
-            relative
-            w-full
-            h-16
-            overflow-hidden
-            rounded-full
-            bg-white
-            text-black
-            font-semibold
-            text-sm
-            transition-all
-            hover:bg-white/90
-            active:scale-[0.99]
-            disabled:opacity-40
-          "
-        >
-          <span className="relative z-10 flex items-center justify-center gap-3">
-            {loading ? "Mengirim..." : "Submit Purchase Order"}
-
-            {!loading && (
-              <span className="text-lg transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            )}
-          </span>
-        </button>
-
+              {/* Tombol Submit Akhir */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="
+                  group
+                  relative
+                  w-2/3
+                  h-16
+                  overflow-hidden
+                  rounded-full
+                  bg-white
+                  text-black
+                  font-semibold
+                  text-sm
+                  transition-all
+                  hover:bg-white/90
+                  active:scale-[0.99]
+                  disabled:opacity-40
+                "
+              >
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  {loading ? "Mengirim..." : "Submit Purchase Order"}
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
-
 
     {/* =========================
         ORDER SUMMARY

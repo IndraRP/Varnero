@@ -10,7 +10,7 @@ export interface POData {
 }
 
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbw7rNi5CQBkl8y7eF9KtsO-Pc5XJpv44oCj23Idqcxhi2VaK2x87c2UYmJ44L52VNxV/exec";
+  "https://script.google.com/macros/s/AKfycbxU3MmY0pshjIExUDXxL7ZK1iY-hb9OPbJBgQZ6-_RK3pBHHlfFV0hDvMYdnIh6lF7J/exec";
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -47,6 +47,7 @@ export async function submitPO(data: POData) {
       base64: base64,
     },
   };
+  console.log("Payload yang dikirim:", payload);
 
   const response = await fetch(GOOGLE_SCRIPT_URL, {
     method: "POST",
@@ -56,36 +57,38 @@ export async function submitPO(data: POData) {
     body: JSON.stringify(payload),
   });
 
-  const result = await response.json();
+  const responseText = await response.text();
+  console.log("Respon mentah dari Apps Script:", responseText);
+
+  let result;
+  try {
+    result = JSON.parse(responseText);
+  } catch (e) {
+    throw new Error(`Google Apps Script merespon bukan JSON (Kemungkinan Error Script):\n${responseText.substring(0, 150)}...`);
+  }
 
   if (!result.success) {
     throw new Error(result.message || "Gagal mengirim PO");
   }
 
-  // =========================
-  // KIRIM KE WHATSAPP
-  // =========================
+  const nomorWA = "6285151069208";
 
-  const nomorWA = "6282131211769";
+  const message = `Halo Varnero, saya ingin konfirmasi Purchase Order:
 
-  const message = `
-  --------- PO BARU VARNERO ---------
-  No PO: ${result.noPO}
-  Nama: ${data.nama}
-  No HP: ${data.nohp}
-  Alamat: ${data.alamat}
-  Kota: ${data.kota}
-  Partner: ${data.partner}
-  Size: ${data.size}
-  Qty: ${data.qty}`.trim();
+No PO: ${result.noPO}
+Nama: ${data.nama}
+No HP: ${data.nohp}
+Alamat: ${data.alamat}
+Kota: ${data.kota}
+Partner: ${data.partner}
+Size: ${data.size}
+Qty: ${data.qty}`;
 
-  const whatsappUrl =
-    `https://wa.me/${nomorWA}?text=${encodeURIComponent(message)}`;
-
-  window.open(whatsappUrl, "_blank");
+  const waUrl = `https://wa.me/${nomorWA}?text=${encodeURIComponent(message)}`;
 
   return {
     success: true,
     noPO: result.noPO,
+    waUrl,
   };
 }

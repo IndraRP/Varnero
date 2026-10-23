@@ -218,7 +218,7 @@ export default function Navbar() {
             <a href="https://www.instagram.com/varnero_/"><span>INSTAGRAM</span></a>
             <a href="https://tiktok.com"><span>TIKTOK</span></a>
             <a href="https://shopee.co.id/shop/597783876"><span>SHOPEE</span></a>
-            <a href="https://wa.me/6282131211769"><span>CONTACT</span></a>
+            <a href="https://wa.me/6285151069208"><span>CONTACT</span></a>
           </div>
 
         </div>
