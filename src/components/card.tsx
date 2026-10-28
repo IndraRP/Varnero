@@ -1,9 +1,11 @@
 import { CometCard } from "./ui/comet-card";
-import article1 from "@/assets/article1_2.jpg";
-import article2 from "@/assets/article1.jpg";
 import article3 from "@/assets/article1_3.png";
-import article4 from "@/assets/article1_4.jpg";
-import sizechart from "@/assets/sizechart.jpeg";
+import article4 from "@/assets/article1_4.png";
+import article5 from "@/assets/article1_5.jpeg";
+import article6 from "@/assets/article1_6.jpeg";
+import article7 from "@/assets/article1_7.jpeg";
+import article8 from "@/assets/article1_8.jpeg";
+import sizechart from "@/assets/sizechart.jpg";
 
 import { useState } from "react";
 import { ArticleModal } from "./ui/modals-article";
@@ -29,11 +31,14 @@ const collections = [
     bahan: "Cotton Combed 16s",
     category: "Boxy Long Sleeve",
     status: 1,
-    image: article1,
+    image: article8,
     images: [
-      article2,
-      article3,
+      article6,
+      article8,
+      article7,
       article4,
+      article5,
+      article3,
       sizechart,
     ],
   },
@@ -47,7 +52,7 @@ const collections = [
     image:"https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
     status:0,
     images:[
-      article2
+      article6
     ]
 },
 ];
