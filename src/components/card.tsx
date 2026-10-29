@@ -6,6 +6,7 @@ import article6 from "@/assets/article1_6.jpeg";
 import article7 from "@/assets/article1_7.jpeg";
 import article8 from "@/assets/article1_8.jpeg";
 import sizechart from "@/assets/sizechart.jpg";
+import varnerohitam from "@/assets/varnerohytam.png";
 
 import { useState } from "react";
 import { ArticleModal } from "./ui/modals-article";
@@ -39,6 +40,7 @@ const collections = [
       article4,
       article5,
       article3,
+      varnerohitam,
       sizechart,
     ],
   },

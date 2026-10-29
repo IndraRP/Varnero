@@ -4,7 +4,7 @@ export interface POData {
   nohp: string;
   partner: string;
   size: string;
-  qty: number;
+  warna: string;
   kota: string;
   status: string;
   file: File;
@@ -40,7 +40,8 @@ export async function submitPO(data: POData) {
     partner: data.partner,
     kota: data.kota,
     size: data.size,
-    qty: data.qty,
+    warna: data.warna,
+    qty: '1',
     status: data.status,
 
     file: {
@@ -84,7 +85,8 @@ Alamat: ${data.alamat}
 Kota: ${data.kota}
 Partner: ${data.partner}
 Size: ${data.size}
-Qty: ${data.qty}
+Warna: ${data.warna}
+Qty: 1
 Pembayaran: ${data.status}`;
 
   const waUrl = `https://wa.me/${nomorWA}?text=${encodeURIComponent(message)}`;

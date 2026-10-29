@@ -1,11 +1,11 @@
 interface ProductFormProps {
   size: string;
   setSize: React.Dispatch<React.SetStateAction<string>>;
-  qty: number;
-  setQty: React.Dispatch<React.SetStateAction<number>>;
+  warna: string;
+  setWarna: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function ProductForm({ setSize, size, setQty, qty }: ProductFormProps) {
+export default function ProductForm({ setSize, size, setWarna, warna }: ProductFormProps) {
     return (
        <div className="mb-10">
                <div className="flex items-center gap-3 mb-6">
@@ -54,52 +54,47 @@ export default function ProductForm({ setSize, size, setQty, qty }: ProductFormP
      
                    </div>
                  </div>
-     
-     
+
                  <div>
-                     <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-4">
-                         Quantity
-                     </label>
-                     <div className="w-full">
-                         <div className="flex items-center justify-between w-full h-14 rounded-full border border-white/[0.12] bg-white/[0.03] px-2">
-                             <button
-                                 type="button"
-                                 onClick={() => setQty((prev) => Math.max(1, prev - 1))}
-                                 className="
-                                 w-10 h-10
-                                 rounded-full
-                                 flex items-center justify-center
-                                 text-white/50
-                                 hover:bg-white
-                                 hover:text-black
-                                 transition-all
-                                 "
-                             >
-                                 −
-                             </button>
-     
-                             <span className="text-sm font-semibold">
-                                 {qty}
-                             </span>
-     
-                             <button
-                                 type="button"
-                                 onClick={() => setQty((prev) => prev + 1)}
-                                 className="
-                                 w-10 h-10
-                                 rounded-full
-                                 flex items-center justify-center
-                                 text-white/50
-                                 hover:bg-white
-                                 hover:text-black
-                                 transition-all
-                                 "
-                             >
-                                 +
-                             </button>
-                         </div>
-                     </div>
-                     </div>
+                   <label className="block text-[11px] uppercase tracking-[0.18em] text-white/70 mb-4">
+                     Select Color
+                   </label>
+
+                   <div className="flex flex-wrap gap-2 justify-center">
+                     {[
+                       { label: "Putih", dotClass: "bg-white border-black/20" },
+                       { label: "Hitam", dotClass: "bg-black border-white/40" },
+                     ].map((item) => (
+                       <button
+                         key={item.label}
+                         type="button"
+                         onClick={() => setWarna(item.label)}
+                         className={`
+                           flex
+                           items-center
+                           gap-2.5
+                           h-12
+                           px-5
+                           rounded-full
+                           text-xs
+                           font-medium
+                           border
+                           transition-all
+                           ${
+                             warna === item.label
+                               ? "bg-white text-black border-white"
+                               : "bg-transparent text-white/50 border-white/[0.12] hover:border-white/40 hover:text-white"
+                           }
+                         `}
+                       >
+                         <span
+                           className={`w-3 h-3 rounded-full border ${item.dotClass}`}
+                         />
+                         {item.label}
+                       </button>
+                     ))}
+                   </div>
+                 </div>
      
                </div>
              </div>

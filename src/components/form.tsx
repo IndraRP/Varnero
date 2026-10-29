@@ -13,8 +13,8 @@ export default function POForm() {
   const [alamat, setAlamat] = useState("");
   const [partner, setPartner] = useState("");
   const [size, setSize] = useState("");
+  const [warna, setWarna] = useState("");
   const [kota, setKota] = useState("");
-  const [qty, setQty] = useState<number>(1);
   const [status, setStatus] = useState<string>("DP");
   const [file, setFile] = useState<File | null>(null);
 
@@ -33,7 +33,7 @@ export default function POForm() {
 
     e.preventDefault();
 
-    if (!nama || !nohp || !alamat || !kota || !partner || !size || !qty || !file) {
+    if (!nama || !nohp || !alamat || !kota || !partner || !size || !warna || !file) {
       alert("Ada Field yang Belum Diisi!!!");
       return;
     }
@@ -53,7 +53,8 @@ export default function POForm() {
         alamat,
         partner,
         size,
-        qty,
+        warna,
+
         kota,
         status,
         file
@@ -68,7 +69,8 @@ export default function POForm() {
       setAlamat("");
       setPartner("");
       setSize("");
-      setQty(1);
+      setWarna("");
+
       setFile(null);
       setStatus("DP");
       setStep(1);
@@ -141,8 +143,10 @@ export default function POForm() {
               <ProductForm 
                 size={size} 
                 setSize={setSize}
-                qty={qty}
-                setQty={setQty}
+                warna={warna}
+                setWarna={setWarna}
+
+
               />
 
               {/* Tombol Lanjut ke Step 2 */}
@@ -290,7 +294,7 @@ export default function POForm() {
             </div>
 
             <span className="text-xs text-white/40">
-              {size || "—"}
+              {size ? `${size}${warna ? ` / ${warna}` : ""}` : (warna || "—")}
             </span>
 
           </div>
@@ -303,7 +307,7 @@ export default function POForm() {
             </span>
 
             <span className="font-semibold">
-              {qty} pcs
+              1 pcs
             </span>
 
           </div>
