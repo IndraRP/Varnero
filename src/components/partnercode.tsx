@@ -49,6 +49,9 @@ export const partnerCodes = [
     "K1K1", // Kiki
     "B1M4", // Bima
     "ADJ1E", //adjie
-    "V1ndra", //vindra
-    "Rapl1" //vindra
+    "V1NDR4", //vindra
+    "R4PL1", //rapli
+    "F1TRAH", //Alul
+    "DH4N1", //dhani
+    "1ZZ4", // Izza
   ];
