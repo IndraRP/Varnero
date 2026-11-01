@@ -34,7 +34,7 @@ export const partnerCodes = [
     "P3DR0",  // Pedro
     "54D3W4", // Sadewa
     "M4H35",  // Mahes
-    "W4L1D1", // Walidi
+    "W4L6i4N", // Walidi
     "54TR1Y4", // Satriya
     "C@R4K4", // Caraka
     "R3HH4N", // Rehan Sena
@@ -44,4 +44,8 @@ export const partnerCodes = [
     "F4HM1", // Fahmi
     "4LBI", // Albi
     "F@HR3L", // Fahrel
+
+    // baru
+    "K1K1", // Kiki
+    "B1M4", // Bima
   ];
