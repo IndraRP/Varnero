@@ -54,4 +54,11 @@ export const partnerCodes = [
     "F1TRAH", //Alul
     "DH4N1", //dhani
     "1ZZ4", // Izza
+    "4GUNG", // Agung
+    "1JAD", // ijad
+    "S1LKI", // silki
+
+    "F@HRELSEL", //selenium
+    "PAN7SEL", //selenium
+    "F@HMSEL", //selenium
   ];
