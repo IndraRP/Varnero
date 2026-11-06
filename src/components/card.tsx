@@ -7,23 +7,21 @@ import article7 from "@/assets/article1_7.jpeg";
 import article8 from "@/assets/article1_8.jpeg";
 import sizechart from "@/assets/sizechart.jpg";
 import varnerohitam from "@/assets/varnerohytam.png";
+import { useNavigate } from "react-router-dom";
 
-import { useState } from "react";
-import { ArticleModal } from "./ui/modals-article";
-
-type Collection = {
+export type Collection = {
   number: string;
   title: string;
   subtitle: string;
   description: string;
-  category:string;
-  bahan:string;
+  category: string;
+  bahan: string;
   status: number;
   image: string;
   images: string[];
 };
 
-const collections = [
+export const collections: Collection[] = [
   {
     number: "01",
     title: "FIRST BLOOD",
@@ -51,18 +49,17 @@ const collections = [
     description: "Lorem Ipsum Dolor Sit Amet, Take me back to the night we met",
     bahan: "Cotton Combed 16s",
     category: "Boxy Long Sleeve",
-    image:"https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
-    status:0,
-    images:[
-      article6
-    ]
-},
+    image: "https://i.pinimg.com/736x/62/94/f8/6294f85f70911e824ce54b7cdf79faba.jpg",
+    status: 0,
+    images: [
+      article6,
+    ],
+  },
 ];
 
 export function CometCardDemo() {
-  const [selectedCollection, setSelectedCollection] =
-  useState<Collection | null>(null);
-  
+  const navigate = useNavigate();
+
   return (
     <section className="px-6 py-24 text-white md:px-10 md:py-32" id="collections">
       <div className="mx-auto max-w-[1400px]">
@@ -123,10 +120,9 @@ export function CometCardDemo() {
                   transform: "none",
                   opacity: 1,
                 }}
-
                 onClick={() => {
                   if (collection.status === 1) {
-                    setSelectedCollection(collection);
+                    navigate(`/collection/${collection.number}`);
                   }
                 }}
               >
@@ -267,11 +263,6 @@ export function CometCardDemo() {
 
         </div>
       </div>
-
-      <ArticleModal
-        collection={selectedCollection}
-        onClose={() => setSelectedCollection(null)}
-      />
     </section>
   );
 }

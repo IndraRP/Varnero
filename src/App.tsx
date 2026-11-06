@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import InteractiveCursor from "./components/cursor";
 import { TextFlippingBoardDemo } from "./components/text-flipping";
 import POForm from "./components/form";
+import { ArticlePage } from "./components/ui/modals-article";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -14,7 +15,9 @@ import { motion } from "framer-motion";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const isPOPage = window.location.pathname === "/po";
+  const isDirectSubPage =
+    window.location.pathname === "/po" ||
+    window.location.pathname.startsWith("/collection");
 
   useEffect(() => {
     if (!loading) return;
@@ -23,7 +26,7 @@ function App() {
       setLoading(false);
     }, 20000);
 
-    if (isPOPage) {
+    if (isDirectSubPage) {
       setLoading(false);
       return;
     }
@@ -45,7 +48,7 @@ function App() {
       window.removeEventListener("touchmove", handleContinue);
       window.removeEventListener("touchstart", handleContinue);
     };
-  }, [loading, isPOPage]);
+  }, [loading, isDirectSubPage]);
 
   return (
     <BrowserRouter>
@@ -86,6 +89,12 @@ function App() {
                     </div>
                   </div>
                 }
+              />
+
+              {/* COLLECTION DETAIL PAGE */}
+              <Route
+                path="/collection/:id"
+                element={<ArticlePage />}
               />
 
               {/* PO FORM */}
